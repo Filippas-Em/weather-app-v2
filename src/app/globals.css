@@ -1,14 +1,14 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: url('../../public/Untitled-1\ 1\ copy.png');
+  /* --foreground: #171717; */
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
 
 html,
 body {
@@ -39,4 +39,62 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+.mainContent{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.mainCard{
+  width: 70%;
+  height: 80%;
+  background-color: rgba(154, 154, 154, 0.59);
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px 4px rgba(0, 0, 0, 0.3);
+  font-size: 1.4rem;
+}
+
+.menu-container {
+    display: flex;
+    margin-top: 2rem;
+    justify-self: center;
+    width: 90%;
+    border-bottom: 1px solid white;
+}
+
+.menu {
+    position: relative;
+    display: flex;
+    gap: 2rem;
+    padding-bottom: 0.5rem;
+}
+
+.menu-item {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 0;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.menu-item:hover {
+    color: rgb(226, 226, 226);
+}
+
+.menu-item.selected {
+    color: white;
+    font-weight: bold;
+}
+
+.underline {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background-color: white;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
 }
