@@ -7,7 +7,9 @@ export default function CardInputs() {
   return (
     <div className="menu-container">
         <Select />
-        <MetricUnits />
+        <div className='controls'>
+          <MetricUnits />
+        </div>
     </div>
   );
 }

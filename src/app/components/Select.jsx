@@ -1,48 +1,69 @@
-"use client";
-import Link from "next/link";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+"use client"
 
-export default function Select() {
-    const router = useRouter();
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
-    const selected = searchParams.get("selected") || "";
-    const linksRef = useRef([]);
+import React, { useEffect, useState, useRef } from 'react';
 
-    useEffect(() => {
-        if (!selected) {
-            router.replace(`${pathname}?selected=today`);
-        }
-    }, [selected, pathname, router]);
+const Select = () => {
+  const [selectedValue, setSelectedValue] = useState('today');
+  const [underlineStyle, setUnderlineStyle] = useState({});
+  const buttonsRef = useRef([]);
 
-    const links = [
-        { name: 'Today', value: 'today', href: '/?selected=today' },
-        { name: 'Tomorrow', value: 'tomorrow', href: '/?selected=tomorrow' },
-        { name: 'This Week', value: 'week', href: '/?selected=week' },
-    ];
+  const links = [
+    { name: 'Today', value: 'today' },
+    { name: 'Tomorrow', value: 'tomorrow' },
+    { name: 'This Week', value: 'week' },
+  ];
 
-    return (
-        <nav className="nav-container">
-            <div className="menu">
-                {links.map((link, index) => (
-                    <Link
-                        key={index}
-                        href={link.href}
-                        ref={el => linksRef.current[index] = el}
-                        className={`menu-item ${selected === link.value ? 'selected' : ''}`}
-                    >
-                        {link.name}
-                    </Link>
-                ))}
-                <span 
-                    className="underline"
-                    style={{
-                        left: linksRef.current[links.findIndex(link => link.value === (selected || 'today'))]?.offsetLeft || 0,
-                        width: linksRef.current[links.findIndex(link => link.value === (selected || 'today'))]?.offsetWidth || 0
-                    }}
-                />
-            </div>
-        </nav>
-    );
-}
+  useEffect(() => {
+    // Get initial selected value from URL or default to 'today'
+    const params = new URLSearchParams(window.location.search);
+    const urlSelected = params.get('selected');
+    if (urlSelected) {
+      setSelectedValue(urlSelected);
+    } else {
+      updateURL('today');
+    }
+  }, []);
+
+  useEffect(() => {
+    // Update underline position whenever selection changes
+    const currentIndex = links.findIndex(link => link.value === selectedValue);
+    const currentButton = buttonsRef.current[currentIndex];
+    
+    if (currentButton) {
+      setUnderlineStyle({
+        transform: `translateX(${currentButton.offsetLeft}px)`,
+        width: `${currentButton.offsetWidth}px`
+      });
+    }
+  }, [selectedValue]);
+
+  const updateURL = (value) => {
+    const params = new URLSearchParams(window.location.search);
+    params.set('selected', value);
+    
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    window.history.pushState({}, '', newUrl);
+    
+    setSelectedValue(value);
+  };
+
+  return (
+    <nav className="nav-container">
+      <div className="menu">
+        {links.map((link, index) => (
+          <button
+            key={link.value}
+            ref={el => buttonsRef.current[index] = el}
+            className={selectedValue === link.value ? 'selected' : ''}
+            onClick={() => updateURL(link.value)}
+          >
+            {link.name}
+          </button>
+        ))}
+        <div className="underline" style={underlineStyle} />
+      </div>
+    </nav>
+  );
+};
+
+export default Select;
