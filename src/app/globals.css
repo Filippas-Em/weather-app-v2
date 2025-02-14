@@ -76,6 +76,13 @@ a {
 .controls{
   margin-left: auto;
 }
+
+.input-controls{
+  margin-left: auto;
+  display: flex;
+  gap: 1rem;
+}
+
 /* 
 .metric-units{
   display: flex;
@@ -180,3 +187,104 @@ a {
   background-color: white;
   transition: transform 0.3s ease, width 0.3s ease;
 }
+
+
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end; /* Align items to the right */
+  width: 200px;
+}
+
+.search-input {
+  width: 130px;
+  padding: 0.45rem 15px;
+  border: none;
+  border-radius: 10px 0 0 10px; /* Round only the left corners */
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  outline: none;
+  background: rgba(255, 255, 255, 0.36);
+  transform-origin: right center; /* Set the origin for scaling/expansion */
+}
+
+.search-input::placeholder {
+  color: white;
+}
+
+.search-input:focus {
+  width: 200px;
+}
+
+.search-button {
+  padding: 5px 10px;
+  padding-top: 7px;
+  border: none;
+  border-radius: 0 10px 10px 0; /* Round only the right corners */
+  font-size: 1.2rem;
+  background: rgba(255, 255, 255, 0.36);
+  cursor: pointer;
+  transition: background 0.3s ease;
+
+}
+.search-button:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.results-container {
+  position: absolute;
+  top: 37px;
+  left: -40px;
+  background:rgba(255, 255, 255, 0.36);
+  border-radius: 0 0 10px 10px;
+  width: 200px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: all 0.3s ease;
+  
+  /* overflow-y: auto; */
+}
+
+.results-container.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.result-item {
+  display: flex;
+  gap: 10px;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s ease;
+}
+
+.result-item:last-child {
+  border-bottom: none;
+}
+
+.result-item:hover {
+  background-color: rgba(255, 255, 255, 0.36);
+}
+
+.result-name {
+  font-size: 1.2rem;
+  color: white;
+  font-weight: 500;
+}
+
+.result-location {
+  font-size: 0.9em;
+  font-size: 1rem;
+  color: white;
+  margin-top: 2px;
+}
+
+.input-round{
+  border-radius: 10px 0 0 0;
+}
+

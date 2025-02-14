@@ -4,7 +4,7 @@ export default function Layout({ children }){
     return (
         <div className='mainCard'>
             <div className="controls">
-                            <CardInputs />
+                <CardInputs />
 
             </div>
             <div className="card-info">

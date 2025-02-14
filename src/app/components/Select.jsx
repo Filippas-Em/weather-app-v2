@@ -25,7 +25,6 @@ const Select = () => {
   }, []);
 
   useEffect(() => {
-    // Update underline position whenever selection changes
     const currentIndex = links.findIndex(link => link.value === selectedValue);
     const currentButton = buttonsRef.current[currentIndex];
     
