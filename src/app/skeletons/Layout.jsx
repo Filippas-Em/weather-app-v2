@@ -1,4 +1,5 @@
 import CardInputs from "../components/CardInputs"
+import Content from "../components/Content"
 
 export default function Layout({ children }){
     return (
@@ -8,7 +9,7 @@ export default function Layout({ children }){
 
             </div>
             <div className="card-info">
-                {children}
+                <Content />
             </div>
         </div>
     )
