@@ -305,3 +305,23 @@ a {
 .secondary-card-info{
   width: 50%;
 }
+
+.weather-info{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.weather-info-cell{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.temp-info{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+}

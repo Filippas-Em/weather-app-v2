@@ -1,9 +1,10 @@
-"use client";
+'use client'
+import React, { useState, useEffect, useRef } from 'react'
+import dataset from "../datasets/city.list.json"
+import Image from 'next/image'
+import SearchIcon from '../../../public/Frame.svg'
+import { useLocation } from './LocationContext'
 
-import React, { useState, useEffect, useRef } from 'react';
-import dataset from "../datasets/city.list.json";
-import Image from 'next/image';
-import SearchIcon from '../../../public/Frame.svg';
 
 
 const Search = () => {
@@ -12,6 +13,7 @@ const Search = () => {
   const [results, setResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
   const searchRef = useRef(null);
+  const { setCoordinates } = useLocation();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
@@ -46,11 +48,13 @@ const Search = () => {
   };
 
   const handleSelection = (city) => {
-    updateLocationQuery(city.name);
-    updateCountrynQuery(city.country);
-    setSearchTerm(city.name);
-    setShowResults(false);
-  };
+    updateLocationQuery(city.name)
+    updateCountrynQuery(city.country)
+    setSearchTerm(city.name)
+    setShowResults(false)
+    // Update coordinates when city is selected
+    setCoordinates({ lat: city.coord.lat, lon: city.coord.lon })
+  }
 
   const updateLocationQuery = (location) => {
     const params = new URLSearchParams(window.location.search);

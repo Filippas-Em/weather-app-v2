@@ -1,59 +1,92 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image'
+import TempIcon from '../../../public/temp1.png'
+import PressureIcon from '../../../public/pressure1.png'
+import RainPerc from '../../../public/rainPerc.png'
+import WindIcon from '../../../public/wind1.png'
 
-export default function PrimaryCardInfo() {
-    const [params, setParams] = useState({});
-
-    const updateParams = () => {
-        const searchParams = new URLSearchParams(window.location.search);
-        setParams({
-            location: searchParams.get('location'),
-            selected: searchParams.get('selected'),
-            units: searchParams.get('units'),
-            country: searchParams.get('country'),
-        });
-    };
-
-    useEffect(() => {
-        // Initialize params on component mount
-        updateParams();
-
-        // Listen for browser navigation
-        window.addEventListener('popstate', updateParams);
-
-        // Listen for custom events when pushState is used
-        const handleCustomEvent = () => updateParams();
-        window.addEventListener('customPushState', handleCustomEvent);
-
-        return () => {
-            window.removeEventListener('popstate', updateParams);
-            window.removeEventListener('customPushState', handleCustomEvent);
-        };
-    }, []);
-
-    useEffect(() => {
-        console.log("Updated params:", params);
-    }, [params]);
-
+export default function PrimaryCardInfo({data}) {
+ 
     return (
         <div className="primary-card-info">
             <div className="country-date">
-                <h1>{params.location || 'Athens'}, {params.country || 'GR'}</h1>
+                <h1>Athens, Gr</h1>
                 <p>Today, 14/2/2025</p>
             </div>
+            <div className='temp-info'>
+                <h1>7</h1>
+                <Image
+                    src={TempIcon}
+                    alt="Search Icon"
+                    width={52}
+                    height={52}
+                /> 
+                
+            </div>
+            <div className='weather-info'>
+
+                <div className='weather-info-cell'>
+                    <div className='cell-icon'>
+                        <Image
+                            src={TempIcon}
+                            alt="Search Icon"
+                            width={32}
+                            height={32}
+                        /> 
+                    </div>
+                    <div className='cell-info'>
+                        <p>Rain Percentage</p>
+                        <p>60%</p>
+                    </div>
+                </div>
+                <div className='weather-info-cell'>
+                    <div className='cell-icon'>
+                        <Image
+                            src={RainPerc}
+                            alt="Search Icon"
+                            width={22}
+                            height={32}
+                        /> 
+                    </div>
+                    <div className='cell-info'>
+                        <p>Wind</p>
+                        <p>2 Bf</p>
+                    </div>
+                </div>
+                <div className='weather-info-cell'>
+                    <div className='cell-icon'>
+                        <Image
+                            src={WindIcon}
+                            alt="Search Icon"
+                            width={32}
+                            height={32}
+                        /> 
+                    </div>
+                    <div className='cell-info'>
+                        <p>Wind</p>
+                        <p>4 Km/h</p>
+                    </div>
+                    
+                </div>
+                <div className='weather-info-cell'>
+                    <div className='cell-icon'>
+                        <Image
+                            src={PressureIcon}
+                            alt="Search Icon"
+                            width={32}
+                            height={32}
+                        /> 
+                    </div>
+                    <div className='cell-info'>
+                        <p>Pressure</p>
+                        <p>1022 hPa</p>
+                    </div>
+                </div>
+                
+            </div>
+
         </div>
     );
 }
 
-// Override the default pushState method
-(() => {
-    const originalPushState = window.history.pushState;
-    window.history.pushState = function (...args) {
-        // Call the original pushState
-        originalPushState.apply(this, args);
-        
-        // Dispatch a custom event to notify about the URL change
-        const event = new Event('customPushState');
-        window.dispatchEvent(event);
-    };
-})();
