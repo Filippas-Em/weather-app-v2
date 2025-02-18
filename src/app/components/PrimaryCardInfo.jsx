@@ -63,17 +63,18 @@ export default function PrimaryCardInfo({data}) {
         96: "wi-storm-showers",     // Thunderstorm with slight hail
         99: "wi-hail",              // Thunderstorm with heavy hail
     };
+    if(!data.primaryInfo) return null;
     
- 
+    console.log("INSIDE JOOOOB the component",data.primaryInfo);
     return (
         <div className="primary-card-info">
             <div className="country-date">
-                <h1>Athens, Gr</h1>
+                <h1>{data.primaryInfo.location}, Gr</h1>
                 <p>Today, 14/2/2025</p>
             </div>
             <div className='temp-info'>
-                {/* <h1>{data.current.temperature_2m}°</h1> */}
-                <i className={`wi ${weatherIcons[data?.current.weather_code || 0]}`} style={{ fontSize: "52px" }}></i>
+                <h1>{data.primaryInfo.temperature}°</h1>
+                <i className={`wi ${weatherIcons[data.primaryInfo.weatherCode || 0]}`} style={{ fontSize: "52px" }}></i>
 
                 
             </div>
@@ -90,7 +91,7 @@ export default function PrimaryCardInfo({data}) {
                     </div>
                     <div className='cell-info'>
                         <p>Feel Temperature</p>
-                        <p>8°</p>
+                        <p>{data.primaryInfo.feelTemperature}°</p>
                     </div>
                 </div>
                 <div className='weather-info-cell'>
@@ -104,7 +105,7 @@ export default function PrimaryCardInfo({data}) {
                     </div>
                     <div className='cell-info'>
                         <p>Rain Percentage</p>
-                        <p>20%</p>
+                        <p>{data.primaryInfo.precipitation}%</p>
                     </div>
                 </div>
                 <div className='weather-info-cell'>
@@ -118,7 +119,7 @@ export default function PrimaryCardInfo({data}) {
                     </div>
                     <div className='cell-info'>
                         <p>Wind</p>
-                        <p>4 Km/h</p>
+                        <p>{data.primaryInfo.wind} Km/h</p>
                     </div>
                     
                 </div>
@@ -133,7 +134,7 @@ export default function PrimaryCardInfo({data}) {
                     </div>
                     <div className='cell-info'>
                         <p>Pressure</p>
-                        <p>1022 hPa</p>
+                        <p>{data.primaryInfo.pressure} hPa</p>
                     </div>
                 </div>
                 

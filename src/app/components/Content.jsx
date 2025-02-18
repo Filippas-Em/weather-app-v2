@@ -9,6 +9,9 @@ import { useLocation } from './LocationContext';
 export default function Content() {
     const [todayWeather, setTodayWeather] = useState([]);
     const [tomorrowWeather, setTomorrowWeather] = useState([]);
+    const [weekWeather,setWeekWeather] = useState([]);
+
+
     const [params, setParams] = useState({});
     const [apiData, setApiData] = useState(null);
     const {coordinates} = useLocation();
@@ -58,7 +61,7 @@ export default function Content() {
 
         apiCall(apiUrl);
 
-    }, [params]);
+    }, [params.location, params.units, params.country]);
 
 
     async function apiCall(call){
@@ -101,6 +104,30 @@ export default function Content() {
                 
             })) : [];
 
+            const primaryInfoWeek = data.daily?.time ? data.daily.time.slice(0, 7).map((time, index) => ({
+                location: params.location,
+                date: data.daily.time[index],
+                temperature: (data.daily.temperature_2m_max?.[index]+data.daily.temperature_2m_min?.[index])/2,
+                feelTemperature: (data.daily.apparent_temperature_max?.[index]+data.daily.apparent_temperature_min?.[index])/2,
+                precipitation: data.daily.precipitation_probability_max?.[index],
+                weatherCode: data.daily.weather_code?.[index],
+                wind: data.daily.wind_speed_10m_max?.[index]
+            })) : [];
+
+            const secondaryInfoWeek = data.daily?.time
+                ? Array.from({ length: 7 }, (_, dayIndex) => {
+                    // Create a sub-array for each day
+                    return data.hourly.time.slice(dayIndex * 24, (dayIndex + 1) * 24).map((time, hourIndex) => ({
+                        time: time.substring(11, 16), // Extract only the hour
+                        weatherCode: data.hourly.weather_code?.[dayIndex * 24 + hourIndex],
+                        precipitation: data.hourly.precipitation_probability?.[dayIndex * 24 + hourIndex],
+                        wind: data.hourly.wind_speed_10m?.[dayIndex * 24 + hourIndex],
+                        temperature: data.hourly.temperature_2m?.[dayIndex * 24 + hourIndex],
+                    }));
+                })
+                : [];
+
+
             const todayArray = {
                 primaryInfo: {
                     location: params.location,
@@ -120,10 +147,15 @@ export default function Content() {
                 secondaryInfo: secondaryInfoTomorrow,
             };
 
-            console.log("today array", todayArray);
-            console.log("tomorrow array", tomorrowArray);
+            const weekArray = {
+                primaryInfo: primaryInfoWeek,
+                secondaryInfo: secondaryInfoWeek,
+            };
 
-
+            setTodayWeather(todayArray);
+            setTomorrowWeather(tomorrowArray);
+            setWeekWeather(weekArray);
+            console.log(todayArray);
 
         } catch (error) {
             console.error(error);
@@ -134,8 +166,8 @@ export default function Content() {
 
     return (
         <>  
-            <PrimaryCardInfo data={apiData}/>
-            <SecondaryCardInfo data={apiData} />
+            <PrimaryCardInfo data={todayWeather}/>
+            <SecondaryCardInfo data={todayWeather} />
         </>
     )
 }
