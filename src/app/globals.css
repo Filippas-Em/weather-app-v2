@@ -51,7 +51,6 @@ a {
 
 .mainCard{
   width: 70%;
-  height: 80%;
   background-color: rgba(154, 154, 154, 0.59);
   border-radius: 10px;
   box-shadow: 0px 0px 20px 4px rgba(0, 0, 0, 0.3);
@@ -290,6 +289,7 @@ a {
 
 
 .card-info{
+  padding: 1rem 0;
   display: flex;
   flex-wrap: wrap;
   width: 90%;
@@ -297,9 +297,12 @@ a {
 }
 
 .primary-card-info{
+  padding: 3rem 0;
   padding-left: 48px;
   width: 50%;
-  border-right: 1px solid white;
+  border-right: 1px solid #ffffff3d;
+  align-self: center;
+  gap: space-between;
 }
 
 .secondary-card-info{
@@ -320,6 +323,8 @@ a {
 }
 
 .temp-info{
+  font-size: 52px;
+  padding: 4rem 0;
   display: flex;
   justify-content: center;
   align-items: center;

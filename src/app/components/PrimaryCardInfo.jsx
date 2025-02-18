@@ -5,8 +5,65 @@ import TempIcon from '../../../public/temp1.png'
 import PressureIcon from '../../../public/pressure1.png'
 import RainPerc from '../../../public/rainPerc.png'
 import WindIcon from '../../../public/wind1.png'
+import 'weather-icons/css/weather-icons.min.css';
+
 
 export default function PrimaryCardInfo({data}) {
+
+    const weatherIcons = {
+        // Clear weather
+        0: "wi-day-sunny",          // Clear sky
+    
+        // Cloudy weather
+        1: "wi-day-sunny-overcast", // Mainly clear
+        2: "wi-day-cloudy",         // Partly cloudy
+        3: "wi-cloudy",             // Overcast
+    
+        // Foggy and hazy weather
+        45: "wi-fog",               // Fog
+        48: "wi-dust",              // Depositing rime fog
+    
+        // Drizzle
+        51: "wi-sprinkle",          // Light drizzle
+        53: "wi-showers",           // Moderate drizzle
+        55: "wi-showers",           // Dense drizzle
+    
+        // Freezing drizzle
+        56: "wi-sleet",             // Light freezing drizzle
+        57: "wi-sleet",             // Dense freezing drizzle
+    
+        // Rain
+        61: "wi-day-rain",          // Slight rain
+        63: "wi-rain",              // Moderate rain
+        65: "wi-rain-wind",         // Heavy rain
+    
+        // Freezing rain
+        66: "wi-rain-mix",          // Light freezing rain
+        67: "wi-rain-mix",          // Heavy freezing rain
+    
+        // Snow
+        71: "wi-snow",              // Slight snow fall
+        73: "wi-snow",              // Moderate snow fall
+        75: "wi-snow",              // Heavy snow fall
+    
+        // Snow grains
+        77: "wi-snowflake-cold",    // Snow grains
+    
+        // Rain showers
+        80: "wi-day-showers",       // Slight rain showers
+        81: "wi-showers",           // Moderate rain showers
+        82: "wi-thunderstorm",      // Violent rain showers
+    
+        // Snow showers
+        85: "wi-day-snow",          // Slight snow showers
+        86: "wi-day-snow",          // Heavy snow showers
+    
+        // Thunderstorms
+        95: "wi-thunderstorm",      // Thunderstorm (slight or moderate)
+        96: "wi-storm-showers",     // Thunderstorm with slight hail
+        99: "wi-hail",              // Thunderstorm with heavy hail
+    };
+    
  
     return (
         <div className="primary-card-info">
@@ -15,13 +72,9 @@ export default function PrimaryCardInfo({data}) {
                 <p>Today, 14/2/2025</p>
             </div>
             <div className='temp-info'>
-                <h1>7</h1>
-                <Image
-                    src={TempIcon}
-                    alt="Search Icon"
-                    width={52}
-                    height={52}
-                /> 
+                {/* <h1>{data.current.temperature_2m}°</h1> */}
+                <i className={`wi ${weatherIcons[data?.current.weather_code || 0]}`} style={{ fontSize: "52px" }}></i>
+
                 
             </div>
             <div className='weather-info'>
@@ -36,8 +89,8 @@ export default function PrimaryCardInfo({data}) {
                         /> 
                     </div>
                     <div className='cell-info'>
-                        <p>Rain Percentage</p>
-                        <p>60%</p>
+                        <p>Feel Temperature</p>
+                        <p>8°</p>
                     </div>
                 </div>
                 <div className='weather-info-cell'>
@@ -50,8 +103,8 @@ export default function PrimaryCardInfo({data}) {
                         /> 
                     </div>
                     <div className='cell-info'>
-                        <p>Wind</p>
-                        <p>2 Bf</p>
+                        <p>Rain Percentage</p>
+                        <p>20%</p>
                     </div>
                 </div>
                 <div className='weather-info-cell'>
