@@ -2,7 +2,6 @@ import HourlySlot from "./HourlySlot"
 
 export default function SecondaryCardInfo({data}){
     if(!data.secondaryInfo) return null;
-    console.log("secondary component:",data.secondaryInfo);
 
 
     return (

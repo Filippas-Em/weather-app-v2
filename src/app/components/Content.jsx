@@ -46,14 +46,11 @@ export default function Content() {
     }, []);
 
     useEffect(() => {
-        console.log("Updated params:", params);
         let apiUrl;
 
         if (params.units != "fahrenheit"){
-            console.log("Celsius");
             apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${coordinates.lat}&longitude=${coordinates.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m&hourly=temperature_2m,wind_speed_10m,apparent_temperature,precipitation_probability,weather_code&daily=temperature_2m_max,weather_code,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_probability_max,wind_speed_10m_max&timezone=auto`;
         } else {
-            console.log("Fahrenheit");
             apiUrl =`https://api.open-meteo.com/v1/forecast?latitude=${coordinates.lat}&longitude=${coordinates.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m&hourly=temperature_2m,wind_speed_10m,apparent_temperature,precipitation_probability,weather_code&daily=temperature_2m_max,weather_code,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_probability_max,wind_speed_10m_max&temperature_unit=fahrenheit&timezone=auto`;
         }
         
@@ -68,13 +65,20 @@ export default function Content() {
         try {
             const apiResponse = await fetch(call);  
             const data = await apiResponse.json();
-            console.log(data);
             setApiData(data);
 
             const currentDate = new Date();
-            const today = currentDate.toISOString().split('T')[0]; // Today's date in YYYY-MM-DD format
-            const tomorrow = new Date(currentDate.setDate(currentDate.getDate() + 1)).toISOString().split('T')[0]; // Tomorrow's date
+const nextDay = new Date(currentDate); // Clone for tomorrow
 
+// Get today's date before any modifications
+const today = currentDate.toISOString().split('T')[0];
+
+// Create tomorrow's date using nextDay (leave currentDate unchanged)
+nextDay.setDate(nextDay.getDate() + 1);
+const tomorrow = nextDay.toISOString().split('T')[0];
+
+const formattedDate = `Today, ${currentDate.getDate().toString().padStart(2, '0')}/${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
+const formattedDateTomorrow = `Tomorrow, ${nextDay.getDate().toString().padStart(2, '0')}/${(nextDay.getMonth() + 1).toString().padStart(2, '0')}/${nextDay.getFullYear()}`;
             const secondaryInfoToday = data.hourly?.time ? data.hourly.time.slice(0, 24).map((time, index) => ({
                 time: data.hourly.time[index].substring(11, 16),
                 weatherCode: data.hourly.weather_code?.[index],
@@ -91,18 +95,22 @@ export default function Content() {
                 temperature: data.hourly.temperature_2m?.[index+24],
             })) : [];
 
-            const primaryInfoTomorrow = data.daily?.time ? data.daily.time.slice(0, 1).map((time, index) => ({
+            const primaryInfoTomorrow = data.daily?.time ? {
                 location: params.location,
-                date: tomorrow,
-                temperature: (data.daily.temperature_2m_max?.[1]+data.daily.temperature_2m_min?.[1])/2,
-                feelTemperature: (data.daily.apparent_temperature_max?.[1]+data.daily.apparent_temperature_min?.[1])/2,
+                country: params.country,
+                date: formattedDateTomorrow,
+                temperature: Math.round(
+                    (data.daily.temperature_2m_max?.[1] + data.daily.temperature_2m_min?.[1]) / 2
+                ),
+                feelTemperature: Math.round(
+                    (data.daily.apparent_temperature_max?.[1] + data.daily.apparent_temperature_min?.[1]) / 2
+                ),
                 precipitation: data.daily.precipitation_probability_max?.[1],
                 weatherCode: data.daily.weather_code?.[1],
                 pressure: data.current.surface_pressure,
-                wind: data.daily.wind_speed_10m_max?.[1]
+                wind: data.daily.wind_speed_10m_max?.[1],
+            } : null;
 
-                
-            })) : [];
 
             const primaryInfoWeek = data.daily?.time ? data.daily.time.slice(0, 7).map((time, index) => ({
                 location: params.location,
@@ -125,14 +133,14 @@ export default function Content() {
                         temperature: data.hourly.temperature_2m?.[dayIndex * 24 + hourIndex],
                     }));
                 })
-                : [];
+            : [];
 
-
+            
             const todayArray = {
                 primaryInfo: {
                     location: params.location,
                     country: params.country,
-                    date: today,
+                    date: formattedDate,
                     temperature: data.current.temperature_2m,
                     feelTemperature: data.current.apparent_temperature,
                     precipitation: data.current.precipitation,
@@ -156,7 +164,7 @@ export default function Content() {
             setTodayWeather(todayArray);
             setTomorrowWeather(tomorrowArray);
             setWeekWeather(weekArray);
-            console.log("today array",todayArray);
+            console.log(tomorrowWeather);
 
         } catch (error) {
             console.error(error);
@@ -167,10 +175,20 @@ export default function Content() {
 
     return (
         <>  
-            <PrimaryCardInfo data={todayWeather}/>
-            <SecondaryCardInfo data={todayWeather} />
+            {params.selected === "today" ? (
+                <>
+                    <PrimaryCardInfo data={todayWeather} />
+                    <SecondaryCardInfo data={todayWeather} />
+                </>
+            ) : (
+                <>
+                    <PrimaryCardInfo data={tomorrowWeather} />
+                    <SecondaryCardInfo data={tomorrowWeather} />
+                </>
+            )}
         </>
-    )
+    );
+    
 }
 
 (() => {

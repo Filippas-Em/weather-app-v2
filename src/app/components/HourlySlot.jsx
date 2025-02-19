@@ -58,7 +58,6 @@ export default function HourlySlot({time, icon,temp,precipitation,wind}) {
         96: "wi-storm-showers",     // Thunderstorm with slight hail
         99: "wi-hail",              // Thunderstorm with heavy hail
     };
-    console.log("hourly component",time)
 
     return (
         <div className="hourly-slot">

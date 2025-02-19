@@ -64,13 +64,12 @@ export default function PrimaryCardInfo({data}) {
         99: "wi-hail",              // Thunderstorm with heavy hail
     };
     if(!data.primaryInfo) return null;
-    
-    console.log("INSIDE JOOOOB the component",data.primaryInfo);
+    console.log("inside primary",data.primaryInfo);
     return (
         <div className="primary-card-info">
             <div className="country-date">
                 <h1>{data.primaryInfo.location}, {data.primaryInfo.country}</h1>
-                <p>Today, 14/2/2025</p>
+                <p>{data.primaryInfo.date}</p>
             </div>
             <div className='temp-info'>
                 <h1>{data.primaryInfo.temperature}°</h1>
