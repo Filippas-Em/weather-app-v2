@@ -131,6 +131,7 @@ export default function Content() {
             const todayArray = {
                 primaryInfo: {
                     location: params.location,
+                    country: params.country,
                     date: today,
                     temperature: data.current.temperature_2m,
                     feelTemperature: data.current.apparent_temperature,
@@ -155,7 +156,7 @@ export default function Content() {
             setTodayWeather(todayArray);
             setTomorrowWeather(tomorrowArray);
             setWeekWeather(weekArray);
-            console.log(todayArray);
+            console.log("today array",todayArray);
 
         } catch (error) {
             console.error(error);

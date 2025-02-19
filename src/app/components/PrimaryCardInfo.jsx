@@ -69,7 +69,7 @@ export default function PrimaryCardInfo({data}) {
     return (
         <div className="primary-card-info">
             <div className="country-date">
-                <h1>{data.primaryInfo.location}, Gr</h1>
+                <h1>{data.primaryInfo.location}, {data.primaryInfo.country}</h1>
                 <p>Today, 14/2/2025</p>
             </div>
             <div className='temp-info'>

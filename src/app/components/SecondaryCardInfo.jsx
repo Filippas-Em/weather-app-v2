@@ -1,9 +1,22 @@
+import HourlySlot from "./HourlySlot"
+
+export default function SecondaryCardInfo({data}){
+    if(!data.secondaryInfo) return null;
+    console.log("secondary component:",data.secondaryInfo);
 
 
-export default function SecondaryCardInfo(){
     return (
         <div className="secondary-card-info">
-            <p>This is the secondary</p>
+            {data.secondaryInfo.map((info, index) => (
+                <HourlySlot
+                    key={index} 
+                    time={info.time}
+                    icon={info.weatherCode}
+                    temp={info.temperature}
+                    precipitation={info.precipitation}
+                    wind={info.wind}
+                />
+            ))}
         </div>
     )
 }

@@ -50,7 +50,7 @@ a {
 }
 
 .mainCard{
-  width: 70%;
+  padding: 1rem 2rem;
   background-color: rgba(154, 154, 154, 0.59);
   border-radius: 10px;
   box-shadow: 0px 0px 20px 4px rgba(0, 0, 0, 0.3);
@@ -59,9 +59,8 @@ a {
 
 .menu-container {
     display: flex;
-    margin-top: 1rem;
     justify-self: center;
-    width: 90%;
+    width: 100%;
     padding: 0 2rem;
     border-bottom: 1px solid white;
 }
@@ -289,24 +288,43 @@ a {
 
 
 .card-info{
-  padding: 1rem 0;
   display: flex;
   flex-wrap: wrap;
-  width: 90%;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 12px 2rem;
   justify-self: center;
 }
 
 .primary-card-info{
-  padding: 3rem 0;
-  padding-left: 48px;
-  width: 50%;
-  border-right: 1px solid #ffffff3d;
   align-self: center;
-  gap: space-between;
 }
 
 .secondary-card-info{
-  width: 50%;
+  min-width: 550px;
+  padding: 0 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  max-height: 588px;
+}
+.secondary-card-info::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+.secondary-card-info::-webkit-scrollbar-track {
+  background: #ffffff3d; /* Background of the scrollbar track */
+  border-radius: 10px;
+}
+
+.secondary-card-info::-webkit-scrollbar-thumb {
+  background: #ffffffca; /* Color of the scrollbar thumb */
+  border-radius: 10px;
+}
+
+.secondary-card-info::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Thumb color when hovered */
 }
 
 .weather-info{
@@ -316,6 +334,7 @@ a {
 
 .weather-info-cell{
   display: flex;
+  font-size: 1.2rem;
   flex-direction: row;
   align-items: center;
   gap: 1rem;
@@ -323,10 +342,67 @@ a {
 }
 
 .temp-info{
-  font-size: 52px;
   padding: 4rem 0;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 5rem;
+}
+
+.temp-info h1{
+  font-size: 74px;
+  font-weight: 500;
+}
+
+.hourly-slot{
+  display: flex;
+  width: 100%;
+  align-items: center;
+  font-size: 1.2rem;
+  background:rgba(217, 217, 217, 0.3);
+  padding: 1rem;
+  border-radius: 10px;  
+  transition: all ease 0.1s;
+}
+.hourly-slot:hover{
+  background:rgba(255, 255, 255, 0.36);
+  cursor: pointer;
+}
+
+.slot-first-half{
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.slot-second-half{
+  display: flex;
+  gap: 1.4rem;
+  justify-content: flex-end;
+  margin-left: auto;
+  align-items: center;
+}
+
+.info-set{
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+@media only screen and (max-width: 1155px) {
+  .mainContent{
+    justify-content: flex-start;
+    margin: 2rem;
+  }
+  .card-info{
+    flex-direction: column;
+    gap: 1rem;
+    
+  }
+  .primary-card-info{
+
+  }
+  .country-date{
+    text-align: center;
+  }
 }
