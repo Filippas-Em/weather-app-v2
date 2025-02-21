@@ -365,7 +365,7 @@ a {
   transition: all ease 0.1s;
 }
 .hourly-slot:hover{
-  background:rgba(255, 255, 255, 0.36);
+  background:#ffffff5c;
   cursor: pointer;
 }
 
@@ -474,4 +474,40 @@ a {
 .hourly-slot{
   gap: 1rem;
 }
+}
+.swiperDiv{
+  max-width: 100%;
+  padding: 3rem;
+}
+
+.swiper {
+  width: 100%;
+  max-width: 600px;
+}
+
+.swiperButton {
+  background-color: #d9d9d94d;
+  border: none;
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  width: 145px;
+
+}
+
+.swiperButton h3 {
+  font-size: 2rem;
+}
+
+.swiperButton:hover {
+  cursor: pointer;
+}
+
+.selected{
+  background-color: rgba(40, 40, 40, 0.36);
 }

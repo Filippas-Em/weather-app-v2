@@ -9,8 +9,10 @@ export function LocationProvider({ children }) {
     lon: 23.7275
   })
 
+  const [selectedDay, setSelectedDay] = useState(0) 
+
   return (
-    <LocationContext.Provider value={{ coordinates, setCoordinates }}>
+    <LocationContext.Provider value={{ coordinates, setCoordinates, selectedDay, setSelectedDay }}>
       {children}
     </LocationContext.Provider>
   )

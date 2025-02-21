@@ -4,7 +4,8 @@ import PrimaryCardInfo from "./PrimaryCardInfo"
 import SecondaryCardInfo from "./SecondaryCardInfo"
 import dataset from "../datasets/city.list.json";
 import { useLocation } from './LocationContext';
-
+import PrimaryWeekCardInfo from './PrimaryWeekCardInfo';
+import SecondaryWeekCardInfo from './secondaryWeekCardInfo';
 
 export default function Content() {
     const [todayWeather, setTodayWeather] = useState([]);
@@ -112,15 +113,23 @@ const formattedDateTomorrow = `Tomorrow, ${nextDay.getDate().toString().padStart
             } : null;
 
 
-            const primaryInfoWeek = data.daily?.time ? data.daily.time.slice(0, 7).map((time, index) => ({
-                location: params.location,
-                date: data.daily.time[index],
-                temperature: (data.daily.temperature_2m_max?.[index]+data.daily.temperature_2m_min?.[index])/2,
-                feelTemperature: (data.daily.apparent_temperature_max?.[index]+data.daily.apparent_temperature_min?.[index])/2,
-                precipitation: data.daily.precipitation_probability_max?.[index],
-                weatherCode: data.daily.weather_code?.[index],
-                wind: data.daily.wind_speed_10m_max?.[index]
-            })) : [];
+            const primaryInfoWeek = data.daily?.time
+            ? data.daily.time.slice(0, 7).map((time, index) => {
+                const date = new Date(time); // Create a Date object from the time string
+                const dayName = date.toLocaleString("en-US", { weekday: "long" }); // Get the day name (e.g., Friday)
+
+                return {
+                    location: params.location,
+                    day: dayName, // Store the day name instead of the date
+                    temperature: Math.round((data.daily.temperature_2m_max?.[index] + data.daily.temperature_2m_min?.[index]) / 2),
+                    feelTemperature: Math.round((data.daily.apparent_temperature_max?.[index] + data.daily.apparent_temperature_min?.[index]) / 2),
+                    precipitation: data.daily.precipitation_probability_max?.[index],
+                    weatherCode: data.daily.weather_code?.[index],
+                    wind: data.daily.wind_speed_10m_max?.[index],
+                };
+                })
+            : [];
+
 
             const secondaryInfoWeek = data.daily?.time
                 ? Array.from({ length: 7 }, (_, dayIndex) => {
@@ -180,10 +189,15 @@ const formattedDateTomorrow = `Tomorrow, ${nextDay.getDate().toString().padStart
                     <PrimaryCardInfo data={todayWeather} />
                     <SecondaryCardInfo data={todayWeather} />
                 </>
-            ) : (
+            ) : params.selected === "tomorrow" ? (
                 <>
                     <PrimaryCardInfo data={tomorrowWeather} />
                     <SecondaryCardInfo data={tomorrowWeather} />
+                </>
+            ) : (
+                <>
+                    <PrimaryWeekCardInfo data={weekWeather} />
+                    <SecondaryWeekCardInfo data={weekWeather} />
                 </>
             )}
         </>
