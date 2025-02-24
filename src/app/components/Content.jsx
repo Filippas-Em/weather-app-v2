@@ -120,6 +120,7 @@ const formattedDateTomorrow = `Tomorrow, ${nextDay.getDate().toString().padStart
 
                 return {
                     location: params.location,
+                    country: params.country,
                     day: dayName, // Store the day name instead of the date
                     temperature: Math.round((data.daily.temperature_2m_max?.[index] + data.daily.temperature_2m_min?.[index]) / 2),
                     feelTemperature: Math.round((data.daily.apparent_temperature_max?.[index] + data.daily.apparent_temperature_min?.[index]) / 2),

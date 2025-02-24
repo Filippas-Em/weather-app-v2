@@ -30,13 +30,21 @@ const Search = () => {
   const handleSearch = (value) => {
     setSearchTerm(value);
     if (value.length > 0) {
-      const filtered = cities
-        .filter(city => 
-          city.name.toLowerCase().startsWith(value.toLowerCase()) || 
-          city.state?.toLowerCase().startsWith(value.toLowerCase())
-        )
-        .slice(0, 5);
-      setResults(filtered);
+      // First, get cities that match exactly (case insensitive)
+      const exactMatches = cities.filter(city => 
+        city.name.toLowerCase() === value.toLowerCase()
+      );
+      
+      // Then, get cities that start with the search term but aren't exact matches
+      const startWithMatches = cities.filter(city => 
+        city.name.toLowerCase().startsWith(value.toLowerCase()) && 
+        city.name.toLowerCase() !== value.toLowerCase()
+      );
+      
+      // Combine results - exact matches first, then cities that start with the term
+      const combinedResults = [...exactMatches, ...startWithMatches].slice(0, 5);
+      
+      setResults(combinedResults);
       setShowResults(true);
     } else {
       setResults([]);
