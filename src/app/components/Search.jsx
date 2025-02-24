@@ -5,8 +5,6 @@ import Image from 'next/image'
 import SearchIcon from '../../../public/Frame.svg'
 import { useLocation } from './LocationContext'
 
-
-
 const Search = () => {
   const cities = dataset;
   const [searchTerm, setSearchTerm] = useState('');
@@ -29,7 +27,6 @@ const Search = () => {
     }
   }, [])
 
-
   const handleSearch = (value) => {
     setSearchTerm(value);
     if (value.length > 0) {
@@ -47,8 +44,6 @@ const Search = () => {
     }
   };
   
-  
-
   const handleSelection = (city) => {
     updateLocationQuery(city.name)
     updateCountrynQuery(city.country)
@@ -64,6 +59,7 @@ const Search = () => {
     const newUrl = `${window.location.pathname}?${params.toString()}`;
     window.history.pushState({}, '', newUrl);
   };
+  
   const updateCountrynQuery = (country) => {
     const params = new URLSearchParams(window.location.search);
     if (country) {
@@ -75,11 +71,21 @@ const Search = () => {
     window.history.pushState({}, '', newUrl);
   };
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && searchTerm) {
+  const selectFirstSuggestion = () => {
+    if (results.length > 0) {
+      // Select the first suggestion
+      handleSelection(results[0]);
+    } else if (searchTerm) {
+      // If no suggestions but we have a search term, just update with that
       updateLocationQuery(searchTerm);
       updateCountrynQuery('');
       setShowResults(false);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      selectFirstSuggestion();
     }
   };
 
@@ -114,18 +120,17 @@ const Search = () => {
         onKeyPress={handleKeyPress}
         placeholder="Location ..."
       />
-      <button className="search-button" onClick={() =>{
-        updateLocationQuery(searchTerm)
-        updateCountrynQuery('')
-        }}>
+      <button 
+        className="search-button" 
+        onClick={selectFirstSuggestion}
+      >
         <Image
-            src={SearchIcon}
-            alt="Search Icon"
-            width={20}
-            height={20}
+          src={SearchIcon}
+          alt="Search Icon"
+          width={20}
+          height={20}
         />  
-        </button>
-
+      </button>
          
       <div className={`results-container ${showResults ? 'visible' : ''}`}>
         {
