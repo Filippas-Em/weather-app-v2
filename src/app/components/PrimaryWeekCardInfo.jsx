@@ -77,7 +77,7 @@ export default function PrimaryWeekCardInfo({data}) {
     return (
         <div className="primary-card-info">
             <div className="country-date">
-                <h1>{data.primaryInfo[0].location} {data.primaryInfo[0].country}</h1>
+                <h1>{data.primaryInfo[0].location}, {data.primaryInfo[0].country}</h1>
             </div>
             <div className="swiperDiv">
             <Swiper
