@@ -353,7 +353,10 @@ a {
   font-size: 74px;
   font-weight: 500;
 }
-
+.swiper {
+  width: 100%;
+  max-width: 600px;
+}
 .hourly-slot{
   display: flex;
   width: 100%;
@@ -388,8 +391,14 @@ a {
   gap: 0.5rem;
   align-items: center;
 }
+/* @media only screen and (max-width: 1390px) {
+  .mainContent{
+    justify-content: flex-start;
+    margin: 2rem;
+  }
+} */
 
-@media only screen and (max-width: 1155px) {
+@media only screen and (max-width: 1390px) {
   .mainContent{
     justify-content: flex-start;
     margin: 2rem;
@@ -399,15 +408,22 @@ a {
     gap: 1rem;
     
   }
-  .primary-card-info{
-
-  }
   .country-date{
     text-align: center;
   }
 }
 
 @media only screen and (max-width: 816px) {
+  .swiper{
+    max-width: 530px;
+  }
+  .card-info{
+    width: 100%;
+    padding: 0;
+  }
+  .mainContent{
+    margin: unset;
+  }
   .hourly-slot{
     flex-wrap: wrap;  
   }
@@ -425,9 +441,6 @@ a {
   justify-content: center;
   align-items: center;
  }
- .mainCard{
-  margin: 1rem;
- }
  .secondary-card-info{
   min-width: unset;
  }
@@ -443,8 +456,12 @@ a {
  }
 }
 @media only screen and (max-width: 680px){
+  .swiper{
+    max-width: 450px;
+  }
   .mainContent{
     margin: 0;
+    width: 100%;
   }
   .mainCard{
     margin: 0;
@@ -455,6 +472,11 @@ a {
     padding: 0;
   }
  
+}
+@media only screen and (max-width: 590px){
+  .swiper{
+    max-width: 240px;
+  }
 }
 @media only screen and (max-width: 520px){
 .hourly-slot{
@@ -480,10 +502,7 @@ a {
   padding: 3rem;
 }
 
-.swiper {
-  width: 100%;
-  max-width: 600px;
-}
+
 
 .swiperButton {
   background-color: #d9d9d94d;

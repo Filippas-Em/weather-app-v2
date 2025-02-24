@@ -80,11 +80,27 @@ export default function PrimaryWeekCardInfo({data}) {
                 <h1>{data.primaryInfo[0].location} {data.primaryInfo[0].country}</h1>
             </div>
             <div className="swiperDiv">
-                <Swiper
-                    spaceBetween={10}
-                    slidesPerView={3.5}
-                    onSwiper={(swiper) => setTimeout(() => swiper.update(), 0)}
-                >
+            <Swiper
+                spaceBetween={10}
+                slidesPerView={3.5} 
+                onSwiper={(swiper) => setTimeout(() => swiper.update(), 0)}
+                breakpoints={{
+                    // When width is >= 640px
+                    0: {  // Add a base breakpoint
+                        slidesPerView: 1.5,
+                    },
+                    590: {
+                        slidesPerView: 1.5,
+                    },
+                    640: {
+                        slidesPerView: 2.5,
+                    },
+                    768: {
+                        slidesPerView: 3.5,
+                    },
+
+                }}
+            >
 
             {data.primaryInfo.map((info, index) => (
                 <SwiperSlide key={index}>
