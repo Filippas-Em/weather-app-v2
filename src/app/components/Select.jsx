@@ -14,7 +14,6 @@ const Select = () => {
   ];
 
   useEffect(() => {
-    // Get initial selected value from URL or default to 'today'
     const params = new URLSearchParams(window.location.search);
     const urlSelected = params.get('selected');
     if (urlSelected) {
@@ -30,7 +29,7 @@ const Select = () => {
     
     if (currentButton) {
       setUnderlineStyle({
-        transform: `translateX(${currentButton.offsetLeft}px)`,
+        transform: `translateX(${currentButton.offsetLeft-4}px)`,
         width: `${currentButton.offsetWidth}px`
       });
     }
