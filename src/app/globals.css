@@ -303,6 +303,7 @@ a {
 .secondary-card-info{
   min-width: 550px;
   padding: 0 1rem;
+  margin: 2rem 0;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
