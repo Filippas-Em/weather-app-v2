@@ -35,8 +35,8 @@ const Search = () => {
     if (value.length > 0) {
       const filtered = cities
         .filter(city => 
-          city.name.toLowerCase().includes(value.toLowerCase()) ||
-          city.state?.toLowerCase().includes(value.toLowerCase())
+          city.name.toLowerCase().startsWith(value.toLowerCase()) || 
+          city.state?.toLowerCase().startsWith(value.toLowerCase())
         )
         .slice(0, 5);
       setResults(filtered);
@@ -46,6 +46,8 @@ const Search = () => {
       setShowResults(false);
     }
   };
+  
+  
 
   const handleSelection = (city) => {
     updateLocationQuery(city.name)
