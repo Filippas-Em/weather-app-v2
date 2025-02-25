@@ -104,7 +104,7 @@ export default function PrimaryWeekCardInfo({data}) {
 
             {data.primaryInfo.map((info, index) => (
                 <SwiperSlide key={index}>
-                    <button 
+                    {/* <button 
                         onClick={() => changeDay(index)} 
                         className={clsx(
                             'swiperButton',
@@ -114,7 +114,16 @@ export default function PrimaryWeekCardInfo({data}) {
                         {index === 0 ? <p>Today</p> : index === 1 ? <p>Tomorrow</p> : <p>{data.primaryInfo[index].day}</p>}
                         <h3>{data.primaryInfo[index].temperature}°</h3>
                         <i className={`wi ${weatherIcons[data.primaryInfo[index].weatherCode || 0]}`} style={{ fontSize: "52px" }}></i>   
-                    </button>
+                    </button> */}
+                    <div onClick={() => changeDay(index)} 
+                        className={clsx(
+                            'swiperButton',
+                            index === selectedDay && 'selected' // or whatever your highlight class name is
+                        )}>
+                            {index === 0 ? <p>Today</p> : index === 1 ? <p>Tomorrow</p> : <p>{data.primaryInfo[index].day}</p>}
+                        <h3>{data.primaryInfo[index].temperature}°</h3>
+                        <i className={`wi ${weatherIcons[data.primaryInfo[index].weatherCode || 0]}`} style={{ fontSize: "52px" }}></i>   
+                    </div>
                 </SwiperSlide>
             ))}
                 </Swiper>

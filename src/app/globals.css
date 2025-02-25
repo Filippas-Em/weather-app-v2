@@ -197,6 +197,7 @@ a {
 
 .search-input {
   width: 130px;
+  height: 37px;
   padding: 0.45rem 15px;
   border: none;
   border-radius: 10px 0 0 10px; /* Round only the left corners */
@@ -215,6 +216,10 @@ a {
   width: 200px;
 }
 
+.extended-saerch{
+  width: 200px;
+}
+
 .search-button {
   padding: 5px 10px;
   padding-top: 7px;
@@ -224,7 +229,6 @@ a {
   background: rgba(255, 255, 255, 0.36);
   cursor: pointer;
   transition: background 0.3s ease;
-
 }
 .search-button:hover {
   background: rgba(255, 255, 255, 0.6);
@@ -232,7 +236,7 @@ a {
 
 .results-container {
   position: absolute;
-  top: 37px;
+  top: 36px;
   left: -40px;
   background:rgba(255, 255, 255, 0.36);
   border-radius: 0 0 10px 10px;
@@ -242,14 +246,16 @@ a {
   transform: translateY(-10px);
   pointer-events: none;
   transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   
-  /* overflow-y: auto; */
 }
 
 .results-container.visible {
   opacity: 1;
   transform: translateY(0);
   pointer-events: all;
+  z-index: 100;
 }
 
 .result-item {

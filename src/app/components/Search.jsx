@@ -122,7 +122,7 @@ const Search = () => {
     <div className="search-container" ref={searchRef}>
       <input
         type="text"
-        className={`search-input ${showResults ? 'input-round' : ''}`}
+        className={`search-input ${showResults ? 'input-round extended-saerch' : ''}`}
         value={searchTerm}
         onChange={(e) => handleSearch(e.target.value)}
         onKeyPress={handleKeyPress}
