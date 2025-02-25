@@ -118,7 +118,7 @@ export default function PrimaryCardInfo({data}) {
                     </div>
                     <div className='cell-info'>
                         <p>Wind</p>
-                        <p>{data.primaryInfo.wind} Km/h</p>
+                        <p>{data.primaryInfo.wind} B</p>
                     </div>
                     
                 </div>

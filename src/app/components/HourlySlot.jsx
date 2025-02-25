@@ -76,7 +76,7 @@ export default function HourlySlot({time, icon,temp,precipitation,wind}) {
                     /> 
                 </div>
                 <div className="info-set">
-                    <p>{wind}km/h</p>
+                    <p>{wind}B</p>
                     <Image
                         src={WindIcon}
                         alt="Search Icon"

@@ -169,7 +169,7 @@ export default function PrimaryWeekCardInfo({data}) {
                                 </div>
                                 <div className='cell-info'>
                                     <p>Wind</p>
-                                    <p>{data.primaryInfo[selectedDay].wind} Km/h</p>
+                                    <p>{data.primaryInfo[selectedDay].wind} B</p>
                                 </div>
                                 
                             </div>
