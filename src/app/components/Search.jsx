@@ -14,16 +14,19 @@ const Search = () => {
   const { setCoordinates } = useLocation();
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    const locationParam = params.get('location')
-    const countryParam = params.get('country')
+    // Only run in browser environment
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      const locationParam = params.get('location')
+      const countryParam = params.get('country')
 
-    if (!locationParam) {
-      // Set default to Athens and update URL
-      setSearchTerm('')
-      updateURL('Athens', 'GR')
-    } else {
-      setSearchTerm(locationParam)
+      if (!locationParam) {
+        // Set default to Athens and update URL
+        setSearchTerm('')
+        updateURL('Athens', 'GR')
+      } else {
+        setSearchTerm(locationParam)
+      }
     }
   }, [])
 
@@ -62,21 +65,27 @@ const Search = () => {
   }
 
   const updateLocationQuery = (location) => {
-    const params = new URLSearchParams(window.location.search);
-    params.set('location', location);
-    const newUrl = `${window.location.pathname}?${params.toString()}`;
-    window.history.pushState({}, '', newUrl);
+    // Only run in browser environment
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      params.set('location', location);
+      const newUrl = `${window.location.pathname}?${params.toString()}`;
+      window.history.pushState({}, '', newUrl);
+    }
   };
   
   const updateCountrynQuery = (country) => {
-    const params = new URLSearchParams(window.location.search);
-    if (country) {
-        params.set('country', country);
-    } else {
-        params.delete('country');
+    // Only run in browser environment
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (country) {
+          params.set('country', country);
+      } else {
+          params.delete('country');
+      }
+      const newUrl = `${window.location.pathname}?${params.toString()}`;
+      window.history.pushState({}, '', newUrl);
     }
-    const newUrl = `${window.location.pathname}?${params.toString()}`;
-    window.history.pushState({}, '', newUrl);
   };
 
   const selectFirstSuggestion = () => {
@@ -98,11 +107,14 @@ const Search = () => {
   };
 
   const updateURL = (location, country) => {
-    const params = new URLSearchParams(window.location.search)
-    params.set('location', location)
-    params.set('country', country)
-    const newUrl = `${window.location.pathname}?${params.toString()}`
-    window.history.pushState({}, '', newUrl)
+    // Only run in browser environment
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      params.set('location', location)
+      params.set('country', country)
+      const newUrl = `${window.location.pathname}?${params.toString()}`
+      window.history.pushState({}, '', newUrl)
+    }
   }
 
   const handleClickOutside = (e) => {
@@ -112,10 +124,13 @@ const Search = () => {
   };
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    // Only add event listeners in browser environment
+    if (typeof window !== 'undefined') {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }
   }, []);
 
   return (

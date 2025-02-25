@@ -16,20 +16,23 @@ export default function Content() {
     const [params, setParams] = useState({});
     const [apiData, setApiData] = useState(null);
     const {coordinates} = useLocation();
-    const apiURL = `latitude=35.139599&longitude=26.12603&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m&hourly=temperature_2m,apparent_temperature,precipitation_probability,weather_code&daily=weather_code&timezone=auto`;
+    
     const updateParams = () => {
-        const searchParams = new URLSearchParams(window.location.search);
-        setParams({
-            location: searchParams.get('location'),
-            selected: searchParams.get('selected'),
-            units: searchParams.get('units'),
-            country: searchParams.get('country'),
-        });
-
-
+        // Only run in browser environment
+        if (typeof window !== 'undefined') {
+            const searchParams = new URLSearchParams(window.location.search);
+            setParams({
+                location: searchParams.get('location'),
+                selected: searchParams.get('selected'),
+                units: searchParams.get('units'),
+                country: searchParams.get('country'),
+            });
+        }
     };
 
     useEffect(() => {
+        // Initialize params on component mount - only in browser
+        if (typeof window !== 'undefined') {
             // Initialize params on component mount
             updateParams();
     
@@ -40,10 +43,24 @@ export default function Content() {
             const handleCustomEvent = () => updateParams();
             window.addEventListener('customPushState', handleCustomEvent);
     
+            // IIFE for history API modification - only in browser environment
+            const originalPushState = window.history.pushState;
+            window.history.pushState = function (...args) {
+                // Call the original pushState
+                originalPushState.apply(this, args);
+                
+                // Dispatch a custom event to notify about the URL change
+                const event = new Event('customPushState');
+                window.dispatchEvent(event);
+            };
+    
             return () => {
                 window.removeEventListener('popstate', updateParams);
                 window.removeEventListener('customPushState', handleCustomEvent);
+                // Optionally restore the original pushState in cleanup
+                // window.history.pushState = originalPushState;
             };
+        }
     }, []);
 
     useEffect(() => {
@@ -55,8 +72,6 @@ export default function Content() {
             apiUrl =`https://api.open-meteo.com/v1/forecast?latitude=${coordinates.lat}&longitude=${coordinates.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m&hourly=temperature_2m,wind_speed_10m,apparent_temperature,precipitation_probability,weather_code&daily=temperature_2m_max,weather_code,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_probability_max,wind_speed_10m_max&temperature_unit=fahrenheit&timezone=auto`;
         }
         
-
-
         apiCall(apiUrl);
 
     }, [params.location, params.units, params.country]);
@@ -69,17 +84,17 @@ export default function Content() {
             setApiData(data);
 
             const currentDate = new Date();
-const nextDay = new Date(currentDate); // Clone for tomorrow
+            const nextDay = new Date(currentDate); // Clone for tomorrow
 
-// Get today's date before any modifications
-const today = currentDate.toISOString().split('T')[0];
+            // Get today's date before any modifications
+            const today = currentDate.toISOString().split('T')[0];
 
-// Create tomorrow's date using nextDay (leave currentDate unchanged)
-nextDay.setDate(nextDay.getDate() + 1);
-const tomorrow = nextDay.toISOString().split('T')[0];
+            // Create tomorrow's date using nextDay (leave currentDate unchanged)
+            nextDay.setDate(nextDay.getDate() + 1);
+            const tomorrow = nextDay.toISOString().split('T')[0];
 
-const formattedDate = `Today, ${currentDate.getDate().toString().padStart(2, '0')}/${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
-const formattedDateTomorrow = `Tomorrow, ${nextDay.getDate().toString().padStart(2, '0')}/${(nextDay.getMonth() + 1).toString().padStart(2, '0')}/${nextDay.getFullYear()}`;
+            const formattedDate = `Today, ${currentDate.getDate().toString().padStart(2, '0')}/${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
+            const formattedDateTomorrow = `Tomorrow, ${nextDay.getDate().toString().padStart(2, '0')}/${(nextDay.getMonth() + 1).toString().padStart(2, '0')}/${nextDay.getFullYear()}`;
             const secondaryInfoToday = data.hourly?.time ? data.hourly.time.slice(0, 24).map((time, index) => ({
                 time: data.hourly.time[index].substring(11, 16),
                 weatherCode: data.hourly.weather_code?.[index],
@@ -203,17 +218,4 @@ const formattedDateTomorrow = `Tomorrow, ${nextDay.getDate().toString().padStart
             )}
         </>
     );
-    
 }
-
-(() => {
-    const originalPushState = window.history.pushState;
-    window.history.pushState = function (...args) {
-        // Call the original pushState
-        originalPushState.apply(this, args);
-        
-        // Dispatch a custom event to notify about the URL change
-        const event = new Event('customPushState');
-        window.dispatchEvent(event);
-    };
-})();
