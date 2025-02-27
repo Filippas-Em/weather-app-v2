@@ -6,7 +6,6 @@ export default function SecondaryWeekCardInfo({data}){
     const { selectedDay, setSelectedDay } = useLocation();
     if(!data.secondaryInfo) return null;
 
-    console.log("Secondary Week card",data.secondaryInfo[0][0]);
     return (
         <div className="secondary-card-info">
             {data.secondaryInfo[selectedDay].map((info, index) => (

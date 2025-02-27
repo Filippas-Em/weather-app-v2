@@ -183,7 +183,6 @@ export default function Content() {
             setTodayWeather(todayArray);
             setTomorrowWeather(tomorrowArray);
             setWeekWeather(weekArray);
-            console.log(tomorrowWeather);
 
         } catch (error) {
             console.error(error);

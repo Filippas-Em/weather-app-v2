@@ -72,7 +72,6 @@ export default function PrimaryWeekCardInfo({data}) {
         99: "wi-hail",              // Thunderstorm with heavy hail
     };
 
-    console.log("Week card",data);
     if(!data.primaryInfo) return null;
     return (
         <div className="primary-card-info">

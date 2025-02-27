@@ -64,7 +64,6 @@ export default function PrimaryCardInfo({data}) {
         99: "wi-hail",              // Thunderstorm with heavy hail
     };
     if(!data.primaryInfo) return null;
-    console.log("inside primary",data.primaryInfo);
     return (
         <div className="primary-card-info">
             <div className="country-date">
